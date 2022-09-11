@@ -5,6 +5,7 @@ import Details from "./pages/Details";
 import Navbar from "./components/Navbar";
 import Arsip from "./pages/Arsip";
 import Create from "./pages/Create";
+import NotFound from "./pages/NotFound";
 function App() {
   return (
     <Router>
@@ -14,6 +15,7 @@ function App() {
         <Route path="/details/:id" element={<Details />} />
         <Route path="/arsip" element={<Arsip />} />
         <Route path="/create" element={<Create />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );

@@ -11,7 +11,13 @@ import {
 const Details = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [data, setData] = useState({});
+  const [data, setData] = useState({
+    id: "",
+    title: "",
+    body: "",
+    createdAt: "",
+    archived: false,
+  });
   const achivedData = () => {
     archiveNote(id);
     navigate("/");
@@ -25,7 +31,12 @@ const Details = () => {
     navigate("/");
   };
   useEffect(() => {
-    setData(getNote(id));
+    let note = getNote(id);
+    if (note) {
+      setData(note);
+    } else {
+      navigate("/notfound");
+    }
   }, [id]);
   return (
     <div className="container">
