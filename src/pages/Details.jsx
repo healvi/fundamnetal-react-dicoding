@@ -8,6 +8,7 @@ import {
   getNote,
   unarchiveNote,
 } from "../utils/local-data";
+import { HomePath, NotFoundPath } from "../utils/constant";
 const Details = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -20,22 +21,22 @@ const Details = () => {
   });
   const achivedData = () => {
     archiveNote(id);
-    navigate("/");
+    navigate(HomePath);
   };
   const unAchivedData = () => {
     unarchiveNote(id);
-    navigate("/");
+    navigate(HomePath);
   };
   const deleteData = () => {
     deleteNote(id);
-    navigate("/");
+    navigate(HomePath);
   };
   useEffect(() => {
     let note = getNote(id);
     if (note) {
       setData(note);
     } else {
-      navigate("/notfound");
+      navigate(NotFoundPath);
     }
   }, []);
   return (

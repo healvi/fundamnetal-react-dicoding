@@ -3,36 +3,23 @@ import Card from "../components/Card";
 import { BsFillPlusCircleFill } from "react-icons/bs";
 import { getActiveNotes } from "../utils/local-data";
 import { useNavigate } from "react-router-dom";
+import { CreatePath } from "../utils/constant";
 
 const Home = () => {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
-  const [isSearch, setIsSearch] = useState(false);
   const [query, setquery] = useState("");
 
-  const searchData = (params) => {
-    setquery(params);
-    // if (data && !isSearch) {
-    //   setData(getActiveNotes());
-    // } else if (isSearch) {
-    //   const searchdata = data.filter((element) =>
-    //     element.title.toLowerCase().includes(params.toLowerCase())
-    //   );
-    //   setData(searchdata);
-    // }
-  };
   useEffect(() => {
     setData(getActiveNotes());
   }, []);
   useEffect(() => {
     if (query.length) {
-      setIsSearch(true);
       const searchdata = data.filter((element) =>
         element.title.toLowerCase().includes(query.toLowerCase())
       );
       setData(searchdata);
     } else {
-      setIsSearch(false);
       setData(getActiveNotes());
     }
   }, [query]);
@@ -67,7 +54,7 @@ const Home = () => {
               <div className="icon">
                 <BsFillPlusCircleFill
                   fill="green"
-                  onClick={() => navigate("/create")}
+                  onClick={() => navigate(CreatePath)}
                   size={40}
                 />
               </div>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { BsFillCheckCircleFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { addNote } from "../utils/local-data";
+import { HomePath } from "../utils/constant";
 const Create = () => {
   const navigate = useNavigate();
   const [forms, setForms] = useState({
@@ -18,7 +19,7 @@ const Create = () => {
   };
   const createHandler = () => {
     addNote(forms);
-    navigate("/");
+    navigate(HomePath);
   };
   useEffect(() => {}, [forms]);
   return (

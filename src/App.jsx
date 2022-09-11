@@ -6,16 +6,23 @@ import Navbar from "./components/Navbar";
 import Arsip from "./pages/Arsip";
 import Create from "./pages/Create";
 import NotFound from "./pages/NotFound";
+import {
+  ArshipPath,
+  CreatePath,
+  DetailsPath,
+  HomePath,
+  NotFoundPath,
+} from "./utils/constant";
 function App() {
   return (
     <Router>
       <Navbar />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/details/:id" element={<Details />} />
-        <Route path="/arsip" element={<Arsip />} />
-        <Route path="/create" element={<Create />} />
-        <Route path="*" element={<NotFound />} />
+        <Route path={HomePath} element={<Home />} />
+        <Route path={DetailsPath} element={<Details />} />
+        <Route path={ArshipPath} element={<Arsip />} />
+        <Route path={CreatePath} element={<Create />} />
+        <Route path={NotFoundPath} element={<NotFound />} />
       </Routes>
     </Router>
   );

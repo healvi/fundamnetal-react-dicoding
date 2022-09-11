@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { HomePath } from "../utils/constant";
 
 const NotFound = () => {
   const navigate = useNavigate();
@@ -7,7 +8,7 @@ const NotFound = () => {
   useEffect(() => {
     document.title = "Not Found";
     setTimeout(() => {
-      navigate("/");
+      navigate(HomePath);
     }, 5000);
   }, [navigate]);
 
