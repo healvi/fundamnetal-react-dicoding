@@ -1,0 +1,74 @@
+@import "~bootstrap/scss/bootstrap.scss";
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html, #root, body {
+  height: 100%;
+} 
+.card {
+  width: 18rem;
+  height: 250px;
+  .card-title {
+    cursor: pointer;
+    font-weight: 700 !important;
+  }
+  .card-text {
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    text-overflow: ellipsis ;
+    overflow: hidden;
+  }
+}
+
+.icons-container {
+    max-width: max-content;
+    position:fixed;
+    right: 0;
+    bottom: 0;
+  .icon {
+    cursor: pointer;
+  }
+}
+
+.add-new-page-input-title {
+  border: 0;
+  font-family: Inter,sans-serif;
+  font-size: 64px;
+  font-weight: 700;
+  padding: 8px 0;
+  width: 100%;
+}
+
+.add-new-page-input-body{
+  border: 0;
+  font-family: Inter,sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  padding: 8px 0;
+  width: 100%;
+}
+
+.add-new-page-input-title[data-placeholder]:empty:before,
+.add-new-page-input-body[data-placeholder]:empty:before
+{
+  content: attr(data-placeholder);
+  color: #555; 
+}
+@media screen and (max-width: 720px) {
+  .add-new-page-input-title {
+
+    font-size: 32px;
+  
+  }
+  
+  .add-new-page-input-body{
+
+    font-size: 16px;
+  }
+ 
+}
