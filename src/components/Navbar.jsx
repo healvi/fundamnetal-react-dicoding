@@ -1,8 +1,8 @@
 import React from "react";
-import PropTypes from "prop-types";
+
 import { Link } from "react-router-dom";
 
-const Navbar = (props) => {
+const Navbar = () => {
   return (
     <nav className="navbar bg-primary ">
       <div className="container-fluid">
@@ -16,7 +16,5 @@ const Navbar = (props) => {
     </nav>
   );
 };
-
-Navbar.propTypes = {};
 
 export default Navbar;

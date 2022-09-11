@@ -12,25 +12,30 @@ const Home = () => {
 
   const searchData = (params) => {
     setquery(params);
-    if (data && !isSearch) {
-      setData(getActiveNotes());
-    } else if (isSearch) {
-      const searchdata = data.filter((element) =>
-        element.title.toLowerCase().includes(params.toLowerCase())
-      );
-      setData(searchdata);
-    }
+    // if (data && !isSearch) {
+    //   setData(getActiveNotes());
+    // } else if (isSearch) {
+    //   const searchdata = data.filter((element) =>
+    //     element.title.toLowerCase().includes(params.toLowerCase())
+    //   );
+    //   setData(searchdata);
+    // }
   };
   useEffect(() => {
     setData(getActiveNotes());
-  }, [isSearch]);
+  }, []);
   useEffect(() => {
     if (query.length) {
       setIsSearch(true);
+      const searchdata = data.filter((element) =>
+        element.title.toLowerCase().includes(query.toLowerCase())
+      );
+      setData(searchdata);
     } else {
       setIsSearch(false);
+      setData(getActiveNotes());
     }
-  }, [data, query]);
+  }, [query]);
   return (
     <div className="container-fluid">
       <div className="row">
@@ -40,7 +45,7 @@ const Home = () => {
               <div className="col-10 ">
                 <div className="input-group mb-3">
                   <input
-                    onChange={(e) => searchData(e.target.value)}
+                    onChange={(e) => setquery(e.target.value)}
                     type="text"
                     className="form-control"
                     placeholder="Cari Bedasarkan Judul"

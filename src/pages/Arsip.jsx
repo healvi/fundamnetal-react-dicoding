@@ -5,10 +5,10 @@ import { getArchivedNotes } from "../utils/local-data";
 const Arsip = () => {
   const [data, setData] = useState([]);
   const [isSearch, setIsSearch] = useState(false);
-  const [query, setquery] = useState("");
+  const [query, setQuery] = useState("");
 
   const searchData = (params) => {
-    setquery(params);
+    setQuery(params);
     if (data && !isSearch) {
       setData(getArchivedNotes());
     } else if (isSearch) {

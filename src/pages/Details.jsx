@@ -37,7 +37,7 @@ const Details = () => {
     } else {
       navigate("/notfound");
     }
-  }, [id]);
+  }, []);
   return (
     <div className="container">
       <div className="row mt-5">
@@ -71,7 +71,5 @@ const Details = () => {
     </div>
   );
 };
-
-Details.propTypes = {};
 
 export default Details;
