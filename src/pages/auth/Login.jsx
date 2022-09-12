@@ -5,6 +5,7 @@ import { axioscall } from "../../utils/axios";
 import { saveAuthSession } from "../../utils/Session";
 const Login = () => {
   const navigate = useNavigate();
+  const [isLoading, setLoading] = useState(false);
   const [forms, setForms] = useState({
     email: "",
     password: "",
@@ -22,17 +23,21 @@ const Login = () => {
     if (forms.password.length < 6) {
       return alert("Passsowrd Anda kurang Dari 6 huruf");
     } else if (forms.email.length && forms.password.length >= 6) {
+      setLoading(true);
       await axioscall
         .post("/login", forms)
         .then((v) => {
           alert(v.data.message);
           saveAuthSession(v.data.data);
           navigate("/");
+          setLoading(false);
         })
         .catch((e) => {
+          setLoading(false);
           return alert("Register Tidak Berhasil");
         });
     } else {
+      setLoading(false);
       return alert("Periksa FOrm Anda kurang Benar");
     }
   };
@@ -94,7 +99,7 @@ const Login = () => {
                 </div>
 
                 <button type="submit" className="btn btn-primary mx-2">
-                  Login
+                  {isLoading ? "Loading" : "Login"}
                 </button>
                 <button
                   onClick={() => navigate("/register")}

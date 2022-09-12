@@ -5,7 +5,7 @@ import { axioscall } from "../../utils/axios";
 
 const Register = () => {
   const navigate = useNavigate();
-
+  const [isLoading, setLoading] = useState(false);
   const [forms, setForms] = useState({
     name: "",
     email: "",
@@ -33,11 +33,14 @@ const Register = () => {
         .then((v) => {
           alert(v.message);
           navigate("/login");
+          setLoading(false);
         })
         .catch((e) => {
+          setLoading(false);
           return alert("Register Tidak Berhasil");
         });
     } else {
+      setLoading(false);
       return alert("Periksa FOrm Anda kurang Benar");
     }
   };
@@ -122,7 +125,7 @@ const Register = () => {
                 </div>
 
                 <button type="buttom" className="btn btn-danger mx-2">
-                  Register
+                  {isLoading ? "Loading" : "   Register"}
                 </button>
                 <button
                   onClick={() => navigate("/login")}

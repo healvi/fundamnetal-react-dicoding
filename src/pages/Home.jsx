@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Card from "../components/Card";
-import { BsFillPlusCircleFill } from "react-icons/bs";
+import { BsFillPlusCircleFill, BsSearch } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { CreatePath } from "../utils/constant";
 import useGetNote from "../hooks/useGetNote";
+import AuthContext from "../context/AuthContext";
 
 const Home = () => {
   const { isLoading, note } = useGetNote();
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [query, setquery] = useState("");
+  const { locale } = useContext(AuthContext);
 
   useEffect(() => {
     if (query.length) {
@@ -22,7 +24,7 @@ const Home = () => {
         setData(note);
       }
     }
-  }, [query, isLoading, note, data]);
+  }, [query, isLoading, note, data, locale]);
 
   return (
     <div className="container-fluid">
@@ -36,12 +38,16 @@ const Home = () => {
                     onChange={(e) => setquery(e.target.value)}
                     type="text"
                     className="form-control"
-                    placeholder="Cari Bedasarkan Judul"
+                    placeholder={`${
+                      locale === "id"
+                        ? "Cari Bedasarkan Judul"
+                        : "Find With Name"
+                    }`}
                     aria-label="Username"
                     aria-describedby="basic-addon1"
                   />
                   <span className="input-group-text" id="basic-addon1">
-                    @
+                    <BsSearch size={15} />
                   </span>
                 </div>
               </div>

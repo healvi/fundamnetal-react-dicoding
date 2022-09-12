@@ -1,14 +1,12 @@
 import { createContext, useEffect, useMemo, useState } from "react";
 import { axiosauth } from "../utils/axios";
 import { useNavigate } from "react-router-dom";
-import { getSession } from "../utils/Session";
 const AuthContext = createContext();
 const AuthContextProvider = (props) => {
   const navigate = useNavigate();
   const [users, setUsers] = useState({});
   const [locale, setLocale] = useState("id");
-  const [theme, setTheme] = useState("light");
-  const [token] = useState(() => getSession("token"));
+  const [theme, setTheme] = useState("");
 
   const toggleLocale = () => {
     setLocale((prevLocale) => {
@@ -17,34 +15,44 @@ const AuthContextProvider = (props) => {
   };
   const toggleTheme = () => {
     setTheme((prevTheme) => {
-      return prevTheme === "light" ? "dark" : "light";
+      let newTheme = prevTheme === "light" ? "dark" : "light";
+      localStorage.setItem("theme", newTheme);
+      return newTheme;
     });
   };
   const authContext = useMemo(() => {
     return {
-      token,
       users,
       locale,
       theme,
       toggleLocale,
       toggleTheme,
     };
-  }, [locale, theme, token, users]);
+  }, [locale, theme, users]);
 
   const getUser = async () => {
     await axiosauth
       .get("/users/me")
       .then((response) => {
-        console.log("user data");
         setUsers(response.data);
       })
       .catch((e) => {
         navigate("/login");
       });
   };
+
+  const setThemeFirst = () => {
+    let theme = localStorage.getItem("theme");
+    if (theme === undefined || theme === null) {
+      localStorage.setItem("theme", "light");
+    }
+    // check after
+    theme = setTheme(localStorage.getItem("theme"));
+  };
   useEffect(() => {
     getUser();
-  }, [token]);
+    setThemeFirst();
+  }, []);
 
   return (
     <AuthContext.Provider value={authContext}>
