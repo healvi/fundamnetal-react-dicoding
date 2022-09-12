@@ -1,11 +1,14 @@
 import { createContext, useEffect, useMemo, useState } from "react";
-import { deleteAuthSession } from "../utils/Session";
 import { axiosauth } from "../utils/axios";
+import { useNavigate } from "react-router-dom";
+import { getSession } from "../utils/Session";
 const AuthContext = createContext();
 const AuthContextProvider = (props) => {
+  const navigate = useNavigate();
   const [users, setUsers] = useState({});
   const [locale, setLocale] = useState("id");
   const [theme, setTheme] = useState("light");
+  const [token] = useState(() => getSession("token"));
 
   const toggleLocale = () => {
     setLocale((prevLocale) => {
@@ -19,13 +22,14 @@ const AuthContextProvider = (props) => {
   };
   const authContext = useMemo(() => {
     return {
+      token,
       users,
       locale,
       theme,
       toggleLocale,
       toggleTheme,
     };
-  }, [locale, theme, users]);
+  }, [locale, theme, token, users]);
 
   const getUser = async () => {
     await axiosauth
@@ -35,12 +39,12 @@ const AuthContextProvider = (props) => {
         setUsers(response.data);
       })
       .catch((e) => {
-        deleteAuthSession();
+        navigate("/login");
       });
   };
   useEffect(() => {
     getUser();
-  }, []);
+  }, [token]);
 
   return (
     <AuthContext.Provider value={authContext}>

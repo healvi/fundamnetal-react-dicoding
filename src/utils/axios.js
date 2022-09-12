@@ -11,22 +11,29 @@ const axioscall = axios.create({
     },
   });
 
-const token = getSession('token')
-const axiosauth = axios.create({
+  const axiosauth = axios.create({
     baseURL: BASE_URL,
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization : `Bearer ${token}`
+    
     },
     validateStatus:  (status) => {
       if (status === 401) {
-          // deleteAuthSession() // default
-          // window.location.reload()
+          deleteAuthSession() 
+         
       }
       return status >= 200 && status < 300
 
     },
   });
-
+  axiosauth.interceptors.request.use(
+    config => {
+      config.headers['Authorization'] = `Bearer ${getSession("token")}`;
+          return config;
+      },
+      error => {
+          return Promise.reject(error);
+      }
+  );
 export {axioscall, axiosauth}

@@ -5,7 +5,6 @@ const Guest = ({ children }) => {
   const token = getSession("token");
   const navigate = useNavigate();
   useEffect(() => {
-    console.log("unauthincated");
     if (token === undefined || token === null) {
       navigate("/login");
     }

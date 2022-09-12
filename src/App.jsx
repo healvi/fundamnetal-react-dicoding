@@ -36,6 +36,7 @@ const App = () => {
       <Routes>
         <Route
           path={HomePath}
+          exact
           element={
             <Middleware.Guest>
               <Home />
