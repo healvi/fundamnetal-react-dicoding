@@ -5,12 +5,14 @@ const AuthContext = createContext();
 const AuthContextProvider = (props) => {
   const navigate = useNavigate();
   const [users, setUsers] = useState({});
-  const [locale, setLocale] = useState("id");
+  const [locale, setLocale] = useState("");
   const [theme, setTheme] = useState("");
 
   const toggleLocale = () => {
     setLocale((prevLocale) => {
-      return prevLocale === "id" ? "en" : "id";
+      let newLocale = prevLocale === "id" ? "en" : "id";
+      localStorage.setItem("locale", newLocale);
+      return newLocale;
     });
   };
   const toggleTheme = () => {
@@ -41,17 +43,22 @@ const AuthContextProvider = (props) => {
       });
   };
 
-  const setThemeFirst = () => {
+  const setDefaultFirst = () => {
     let theme = localStorage.getItem("theme");
+    let locale = localStorage.getItem("locale");
     if (theme === undefined || theme === null) {
       localStorage.setItem("theme", "light");
     }
+    if (locale === undefined || locale === null) {
+      localStorage.setItem("locale", "id");
+    }
     // check after
     theme = setTheme(localStorage.getItem("theme"));
+    locale = setLocale(localStorage.getItem("locale"));
   };
   useEffect(() => {
     getUser();
-    setThemeFirst();
+    setDefaultFirst();
   }, []);
 
   return (
