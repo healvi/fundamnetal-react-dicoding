@@ -2,15 +2,12 @@ import React, { useEffect, useState } from "react";
 import { BsFillTrashFill, BsFillSaveFill } from "react-icons/bs";
 import { showFormattedDate } from "../utils";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  archiveNote,
-  deleteNote,
-  getNote,
-  unarchiveNote,
-} from "../utils/local-data";
 import { HomePath, NotFoundPath } from "../utils/constant";
+import useGetDetailsNote from "../hooks/useGetDetailsNote";
+import { axiosauth } from "../utils/axios";
 const Details = () => {
   const { id } = useParams();
+  const { isLoading, note } = useGetDetailsNote(id);
   const navigate = useNavigate();
   const [data, setData] = useState({
     id: "",
@@ -19,26 +16,29 @@ const Details = () => {
     createdAt: "",
     archived: false,
   });
-  const achivedData = () => {
-    archiveNote(id);
-    navigate(HomePath);
+  const achivedData = async () => {
+    await axiosauth.post(`/notes/${id}/archive`).then((note) => {
+      navigate(HomePath);
+    });
   };
-  const unAchivedData = () => {
-    unarchiveNote(id);
-    navigate(HomePath);
+  const unAchivedData = async () => {
+    await axiosauth.post(`/notes/${id}/unarchive`).then((note) => {
+      navigate(HomePath);
+    });
   };
-  const deleteData = () => {
-    deleteNote(id);
-    navigate(HomePath);
+  const deleteData = async () => {
+    await axiosauth.delete(`/notes/${id}`).then((note) => {
+      navigate(HomePath);
+    });
   };
   useEffect(() => {
-    let note = getNote(id);
     if (note) {
       setData(note);
     } else {
       navigate(NotFoundPath);
     }
-  }, [id, navigate]);
+  }, [id, navigate, note, isLoading]);
+
   return (
     <div className="container">
       <div className="row mt-5">

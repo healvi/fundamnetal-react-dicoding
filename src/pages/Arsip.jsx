@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Card from "../components/Card";
 import useGetNoteAchived from "../hooks/useGetNoteAchived";
 
 const Arsip = () => {
   const { isLoading, note } = useGetNoteAchived();
-  const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [query, setquery] = useState("");
 

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { BsFillCheckCircleFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
-import { addNote } from "../utils/local-data";
 import { HomePath } from "../utils/constant";
+import { axiosauth } from "../utils/axios";
 const Create = () => {
   const navigate = useNavigate();
   const [forms, setForms] = useState({
@@ -17,9 +17,10 @@ const Create = () => {
       [name]: value,
     });
   };
-  const createHandler = () => {
-    addNote(forms);
-    navigate(HomePath);
+  const createHandler = async () => {
+    await axiosauth.post(`/notes`, forms).then((note) => {
+      navigate(HomePath);
+    });
   };
   useEffect(() => {}, [forms]);
   return (
