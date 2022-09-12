@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { BsFillCheckCircleFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { HomePath } from "../utils/constant";
@@ -18,11 +18,14 @@ const Create = () => {
     });
   };
   const createHandler = async () => {
-    await axiosauth.post(`/notes`, forms).then((note) => {
-      navigate(HomePath);
-    });
+    if (forms.title.length > 4 && forms.body.length > 4) {
+      await axiosauth.post(`/notes`, forms).then((note) => {
+        navigate(HomePath);
+      });
+    } else {
+      return alert("title dan body Anda Minimal 4 Huruf");
+    }
   };
-  useEffect(() => {}, [forms]);
   return (
     <div className="container pt-5">
       <div

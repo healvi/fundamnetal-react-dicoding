@@ -24,7 +24,7 @@ const Home = () => {
         setData(note);
       }
     }
-  }, [query, isLoading, note, data, locale]);
+  }, [query, isLoading, note, locale]);
 
   return (
     <div className="container-fluid">

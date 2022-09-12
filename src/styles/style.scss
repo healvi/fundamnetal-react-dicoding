@@ -5,15 +5,6 @@
   margin: 0;
   box-sizing: border-box;
 }
-:root {
-  --font-color: #333;
-  --background-color: #eee;
-}
- 
-[data-theme='dark'] {
-  --font-color: #eee;
-  --background-color: #333;
-}
 html, #root, body, .full-container {
   height: 100%;
 } 
