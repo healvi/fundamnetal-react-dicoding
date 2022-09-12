@@ -5,10 +5,22 @@
   margin: 0;
   box-sizing: border-box;
 }
-
-html, #root, body {
+:root {
+  --font-color: #333;
+  --background-color: #eee;
+}
+ 
+[data-theme='dark'] {
+  --font-color: #eee;
+  --background-color: #333;
+}
+html, #root, body, .full-container {
   height: 100%;
 } 
+
+.w-full {
+  width: 100%;
+}
 .card {
   width: 18rem;
   height: 250px;

@@ -1,5 +1,10 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
 import Home from "./pages/Home";
 import Details from "./pages/Details";
 import Navbar from "./components/Navbar";
@@ -11,21 +16,76 @@ import {
   CreatePath,
   DetailsPath,
   HomePath,
+  LoginPath,
   NotFoundPath,
+  RegisterPath,
 } from "./utils/constant";
-function App() {
+import Login from "./pages/auth/Login";
+import Register from "./pages/auth/Register";
+import { AuthContextProvider } from "./context/AuthContext";
+import * as Middleware from "./middleware/Middleware";
+const App = () => {
+  const location = useLocation();
+  const [pathname, setPathName] = useState();
+  useEffect(() => {
+    setPathName(location.pathname);
+  }, [location.pathname]);
   return (
-    <Router>
-      <Navbar />
+    <AuthContextProvider>
+      {pathname !== "/login" && pathname !== "/register" ? <Navbar /> : <></>}
       <Routes>
-        <Route path={HomePath} element={<Home />} />
-        <Route path={DetailsPath} element={<Details />} />
-        <Route path={ArshipPath} element={<Arsip />} />
-        <Route path={CreatePath} element={<Create />} />
+        <Route
+          path={HomePath}
+          element={
+            <Middleware.Guest>
+              <Home />
+            </Middleware.Guest>
+          }
+        />
+        <Route
+          path={DetailsPath}
+          element={
+            <Middleware.Guest>
+              <Details />
+            </Middleware.Guest>
+          }
+        />
+        <Route
+          path={ArshipPath}
+          element={
+            <Middleware.Guest>
+              <Arsip />
+            </Middleware.Guest>
+          }
+        />
+        <Route
+          path={CreatePath}
+          element={
+            <Middleware.Guest>
+              <Create />
+            </Middleware.Guest>
+          }
+        />
+        <Route
+          path={LoginPath}
+          element={
+            <Middleware.Authinticated>
+              <Login />
+            </Middleware.Authinticated>
+          }
+        />
+        <Route
+          path={RegisterPath}
+          element={
+            <Middleware.Authinticated>
+              <Register />
+            </Middleware.Authinticated>
+          }
+        />
         <Route path={NotFoundPath} element={<NotFound />} />
       </Routes>
-    </Router>
+    </AuthContextProvider>
   );
-}
+};
 
 export default App;

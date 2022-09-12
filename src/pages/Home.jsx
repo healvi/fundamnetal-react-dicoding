@@ -11,9 +11,6 @@ const Home = () => {
   const [query, setquery] = useState("");
 
   useEffect(() => {
-    setData(getActiveNotes());
-  }, []);
-  useEffect(() => {
     if (query.length) {
       const searchdata = data.filter((element) =>
         element.title.toLowerCase().includes(query.toLowerCase())

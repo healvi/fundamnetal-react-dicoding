@@ -38,7 +38,7 @@ const Details = () => {
     } else {
       navigate(NotFoundPath);
     }
-  }, []);
+  }, [id, navigate]);
   return (
     <div className="container">
       <div className="row mt-5">
