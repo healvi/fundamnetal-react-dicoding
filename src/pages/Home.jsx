@@ -12,8 +12,7 @@ const Home = () => {
   const [data, setData] = useState([]);
   const [query, setquery] = useState("");
   const { locale } = useContext(AuthContext);
-
-  useEffect(() => {
+  const manipulateData = () => {
     if (query.length) {
       const searchdata = data.filter((element) =>
         element.title.toLowerCase().includes(query.toLowerCase())
@@ -24,6 +23,9 @@ const Home = () => {
         setData(note);
       }
     }
+  };
+  useEffect(() => {
+    manipulateData();
   }, [query, isLoading, note, locale]);
 
   return (

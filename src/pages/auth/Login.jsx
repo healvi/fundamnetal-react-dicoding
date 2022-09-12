@@ -1,34 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
+import useForms from "../../hooks/useForms";
 import { axioscall } from "../../utils/axios";
-import { saveAuthSession } from "../../utils/Session";
+import { putAccessToken } from "../../utils/LocalStorage";
 const Login = () => {
   const navigate = useNavigate();
-  const [isLoading, setLoading] = useState(false);
-  const [forms, setForms] = useState({
-    email: "",
-    password: "",
-  });
-  const [passvisible, setVisible] = useState(false);
-  const handleInput = (e) => {
-    const { name, value } = e.target;
-    setForms({
-      ...forms,
-      [name]: value,
-    });
-  };
+  const { passvisible, forms, setVisible, handleInput, isLoading, setLoading } =
+    useForms();
+
   const handleForm = async (e) => {
     e.preventDefault();
     if (forms.password.length < 6) {
       return alert("Passsowrd Anda kurang Dari 6 huruf");
     } else if (forms.email.length && forms.password.length >= 6) {
+      let newForms = {
+        email: forms.email,
+        password: forms.password,
+      };
       setLoading(true);
       await axioscall
-        .post("/login", forms)
+        .post("/login", newForms)
         .then((v) => {
           alert(v.data.message);
-          saveAuthSession(v.data.data);
+          putAccessToken(v.data.data.accessToken);
           navigate("/");
           setLoading(false);
         })
@@ -41,7 +36,7 @@ const Login = () => {
       return alert("Periksa FOrm Anda kurang Benar");
     }
   };
-  useEffect(() => {}, [passvisible, forms]);
+
   return (
     <div className="container full-container">
       <div className="row justify-content-center align-items-center full-container">

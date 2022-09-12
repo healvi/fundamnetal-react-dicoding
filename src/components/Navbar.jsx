@@ -1,14 +1,18 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ArshipPath, HomePath } from "../utils/constant";
-import { BsSun, BsFillMoonFill, BsTranslate } from "react-icons/bs";
+import { BsPower, BsSun, BsFillMoonFill, BsTranslate } from "react-icons/bs";
 import AuthContext from "../context/AuthContext";
+import { deleteStorage } from "../utils/LocalStorage";
 const Navbar = () => {
-  const { users, locale, theme, toggleLocale, toggleTheme } =
-    useContext(AuthContext);
+  const navigate = useNavigate();
+  const { locale, theme, toggleLocale, toggleTheme } = useContext(AuthContext);
+  const logOut = () => {
+    deleteStorage();
+    navigate("/login");
+  };
 
-  useEffect(() => {}, [users, locale, theme]);
   return (
     <nav className={`navbar ${theme === "light" ? "bg-primary" : "bg-dark"} `}>
       <div className="container-fluid">
@@ -27,12 +31,17 @@ const Navbar = () => {
             )}
           </div>
 
-          <Link
-            className=" col-2 navbar-brand fw-bold text-white"
-            to={ArshipPath}
-          >
-            {locale === "id" ? " Arsip" : "Archived"}
-          </Link>
+          <div className=" col-3 me-3 icons">
+            <Link
+              className=" col-2 navbar-brand fw-bold text-white"
+              to={ArshipPath}
+            >
+              {locale === "id" ? " Arsip" : "Archived"}
+            </Link>
+          </div>
+          <div className=" col-2 ms-3 icons" onClick={() => logOut()}>
+            <BsPower fill="red" size={20} />
+          </div>
         </div>
       </div>
     </nav>

@@ -1,24 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
+import useForms from "../../hooks/useForms";
 import { axioscall } from "../../utils/axios";
 
 const Register = () => {
   const navigate = useNavigate();
-  const [isLoading, setLoading] = useState(false);
-  const [forms, setForms] = useState({
-    name: "",
-    email: "",
-    password: "",
-  });
-  const [passvisible, setVisible] = useState(false);
-  const handleInput = (e) => {
-    const { name, value } = e.target;
-    setForms({
-      ...forms,
-      [name]: value,
-    });
-  };
+  const { passvisible, forms, setVisible, handleInput, isLoading, setLoading } =
+    useForms();
   const handleForm = async (e) => {
     e.preventDefault();
     if (forms.password.length < 6) {
@@ -31,7 +20,6 @@ const Register = () => {
       await axioscall
         .post("/register", forms)
         .then((v) => {
-          alert(v.message);
           navigate("/login");
           setLoading(false);
         })
@@ -44,9 +32,7 @@ const Register = () => {
       return alert("Periksa FOrm Anda kurang Benar");
     }
   };
-  useEffect(() => {
-    console.log(forms);
-  }, [passvisible, forms]);
+
   return (
     <div className="container full-container">
       <div className="row justify-content-center align-items-center full-container">

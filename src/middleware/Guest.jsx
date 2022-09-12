@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getSession } from "../utils/Session";
+import { getAccessToken } from "../utils/LocalStorage";
 const Guest = ({ children }) => {
-  const token = getSession("token");
+  const token = getAccessToken();
   const navigate = useNavigate();
   useEffect(() => {
     if (token === undefined || token === null) {

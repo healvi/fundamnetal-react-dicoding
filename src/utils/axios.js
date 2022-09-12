@@ -1,6 +1,5 @@
 import axios from "axios";
-import {deleteAuthSession, getSession} from './Session';
-
+import { deleteStorage, getAccessToken } from "./LocalStorage";
 
 const BASE_URL = "https://notes-api.dicoding.dev/v1";
 const axioscall = axios.create({
@@ -20,7 +19,7 @@ const axioscall = axios.create({
     },
     validateStatus:  (status) => {
       if (status === 401) {
-          deleteAuthSession() 
+          deleteStorage()
          
       }
       return status >= 200 && status < 300
@@ -29,7 +28,7 @@ const axioscall = axios.create({
   });
   axiosauth.interceptors.request.use(
     config => {
-      config.headers['Authorization'] = `Bearer ${getSession("token")}`;
+      config.headers['Authorization'] = `Bearer ${getAccessToken("token")}`;
           return config;
       },
       error => {

@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { getSession } from "../utils/Session";
+import { getAccessToken } from "../utils/LocalStorage";
 const Authinticated = ({ children }) => {
-  const token = getSession("token");
+  const token = getAccessToken();
   const navigate = useNavigate();
   useEffect(() => {
     if (token !== undefined && token !== null) {
