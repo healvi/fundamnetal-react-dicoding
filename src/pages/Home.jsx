@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Card from "../components/Card";
 import { BsFillPlusCircleFill } from "react-icons/bs";
-import { getActiveNotes } from "../utils/local-data";
 import { useNavigate } from "react-router-dom";
 import { CreatePath } from "../utils/constant";
+import useGetNote from "../hooks/useGetNote";
 
 const Home = () => {
+  const { isLoading, note } = useGetNote();
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [query, setquery] = useState("");
@@ -17,9 +18,12 @@ const Home = () => {
       );
       setData(searchdata);
     } else {
-      setData(getActiveNotes());
+      if (!isLoading) {
+        setData(note);
+      }
     }
-  }, [query]);
+  }, [query, isLoading, note, data]);
+
   return (
     <div className="container-fluid">
       <div className="row">
@@ -41,10 +45,14 @@ const Home = () => {
                   </span>
                 </div>
               </div>
-              {data.length ? (
-                data.map((v, i) => <Card key={i} data={v} />)
+              {!isLoading ? (
+                data.length ? (
+                  data.map((v, i) => <Card key={i} data={v} />)
+                ) : (
+                  <div>Tidak Ada Data</div>
+                )
               ) : (
-                <div>Tidak Ada Data</div>
+                <div>Loading</div>
               )}
             </div>
             <div className="icons-container col-1 me-3 mb-3">

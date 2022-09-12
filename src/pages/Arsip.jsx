@@ -1,33 +1,26 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Card from "../components/Card";
-import { getArchivedNotes } from "../utils/local-data";
+import useGetNoteAchived from "../hooks/useGetNoteAchived";
 
 const Arsip = () => {
+  const { isLoading, note } = useGetNoteAchived();
+  const navigate = useNavigate();
   const [data, setData] = useState([]);
-  const [isSearch, setIsSearch] = useState(false);
-  const [query, setQuery] = useState("");
+  const [query, setquery] = useState("");
 
-  const searchData = (params) => {
-    setQuery(params);
-    if (data && !isSearch) {
-      setData(getArchivedNotes());
-    } else if (isSearch) {
-      const searchdata = data.filter((element) =>
-        element.title.toLowerCase().includes(params.toLowerCase())
-      );
-      setData(searchdata);
-    }
-  };
-  useEffect(() => {
-    setData(getArchivedNotes());
-  }, [isSearch]);
   useEffect(() => {
     if (query.length) {
-      setIsSearch(true);
+      const searchdata = data.filter((element) =>
+        element.title.toLowerCase().includes(query.toLowerCase())
+      );
+      setData(searchdata);
     } else {
-      setIsSearch(false);
+      if (!isLoading) {
+        setData(note);
+      }
     }
-  }, [data, query]);
+  }, [query, isLoading, note, data]);
   return (
     <div className="container-fluid">
       <div className="row">
@@ -37,7 +30,7 @@ const Arsip = () => {
               <div className="col-10 ">
                 <div className="input-group mb-3">
                   <input
-                    onChange={(e) => searchData(e.target.value)}
+                    onChange={(e) => setquery(e.target.value)}
                     type="text"
                     className="form-control"
                     placeholder="Cari Bedasarkan Judul"
@@ -49,10 +42,14 @@ const Arsip = () => {
                   </span>
                 </div>
               </div>
-              {data.length ? (
-                data.map((v, i) => <Card key={i} data={v} />)
+              {!isLoading ? (
+                data.length ? (
+                  data.map((v, i) => <Card key={i} data={v} />)
+                ) : (
+                  <div>Tidak Ada Data</div>
+                )
               ) : (
-                <div>Tidak Ada Data</div>
+                <div>Loading</div>
               )}
             </div>
           </div>

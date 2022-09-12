@@ -21,7 +21,7 @@ const axiosauth = axios.create({
     },
     validateStatus:  (status) => {
       if (status === 401) {
-          deleteAuthSession() // default
+          // deleteAuthSession() // default
           // window.location.reload()
       }
       return status >= 200 && status < 300
