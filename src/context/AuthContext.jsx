@@ -18,6 +18,7 @@ const AuthContextProvider = (props) => {
   const toggleTheme = () => {
     setTheme((prevTheme) => {
       let newTheme = prevTheme === "light" ? "dark" : "light";
+      document.documentElement.setAttribute("data-theme", newTheme);
       localStorage.setItem("theme", newTheme);
       return newTheme;
     });
@@ -55,6 +56,7 @@ const AuthContextProvider = (props) => {
     // check after
     theme = setTheme(localStorage.getItem("theme"));
     locale = setLocale(localStorage.getItem("locale"));
+    document.documentElement.setAttribute("data-theme", theme);
   };
   useEffect(() => {
     getUser();

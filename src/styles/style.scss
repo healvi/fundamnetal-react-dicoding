@@ -9,12 +9,28 @@ html, #root, body, .full-container {
   height: 100%;
 } 
 
+:root {
+  --font-color: #333;
+  --background-color: #eee;
+}
+ 
+[data-theme='dark'] {
+  --font-color: #eee;
+  --background-color: #333;
+}
+
+#root {
+  background-color: var(--background-color);
+  color: var(--font-color);
+}
 .w-full {
   width: 100%;
 }
 .card {
   width: 18rem;
   height: 250px;
+  background-color: var(--background-color);
+  color: var(--font-color);
   .card-title {
     cursor: pointer;
     font-weight: 700 !important;
